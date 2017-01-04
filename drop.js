@@ -6,11 +6,11 @@ var cancelEvent = function(e) {
     return false;
 };
 
-function dropFunction(id, func) {
-    // var elem = document;
-    document.addEventListener("dragover" , cancelEvent, false);
-    document.addEventListener("dragenter", cancelEvent, false);
-    document.addEventListener("drop"     , function(e) {
+function dropFunction(id, func, elem) {
+    var elem = (elem)?elem:document;
+    elem.addEventListener("dragover" , cancelEvent, false);
+    elem.addEventListener("dragenter", cancelEvent, false);
+    elem.addEventListener("drop"     , function(e) {
         e.preventDefault();
 	var reader = new FileReader();
         reader.onload = function (evt) {
