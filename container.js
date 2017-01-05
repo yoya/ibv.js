@@ -25,10 +25,9 @@ class ibvContainer {
 	    div.className = "imgChunk";
 	    //
 	    var bytes = chunk.bytes;
-	    console.log(bytes);
 	    var hexArray = this.constructor.toHexArray(bytes);
-	    console.log(hexArray);
 	    var hexDump = hexArray.join(" ");
+	    // console.log(hexDump);
 	    div.innerHTML = hexDump;
 	    divContainer.appendChild(div);
 	}

@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 function main() {
     var container = document.getElementById("ibv_container");
-    console.log(container);
     var ibvC = new ibvContainer(container);
     dropFunction(onImgLoad, null, ibvC);
 }
@@ -27,7 +26,6 @@ function onImgLoad(buf, ibvC) {
 	}
     }
     if (io !== null) {
-	console.log(io);
 	io.parse(arr);
 	var cArr = io.getChunkArray();
 	console.log(cArr);
