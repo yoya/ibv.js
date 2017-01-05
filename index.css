@@ -1,2 +1,8 @@
-;
+.imgContainer {
+    border: double 10px #00df00;
+}
 
+.imgChunk {
+    background-color: white;
+    border: inset 1px #0000ff;
+}
