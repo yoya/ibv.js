@@ -19,7 +19,7 @@ function main() {
 function onImgLoad(buf, ibvC) {
     var arr = new Uint8Array(buf);
     var io = null;
-    for (var imgClass of [IO_JPEG]) {
+    for (var imgClass of [IO_JPEG, IO_PNG]) {
 	console.log(imgClass);
 	if (imgClass.verifySig(arr)) {
 	    var io = new imgClass();
