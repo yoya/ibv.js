@@ -184,11 +184,9 @@ class IO_GIF {
 				localColorTable:localColorTable});
 		}
 		var lzwMinimumCodeSize = arr[o];
-		infos.push({offset:o,
-			    localColorTable:localColorTable});
+		infos.push({offset:o, lzwMinimumCodeSize:lzwMinimumCodeSize});
 		o += 1;
 		var ioffset = o;
-		//var imageData = new Uint8Array(0);
 		var imageData = [];
 		while (true) {
 		    var blockSize = arr[o];
