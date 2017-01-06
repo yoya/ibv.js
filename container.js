@@ -16,11 +16,11 @@ class ibvContainer {
 	    var bytes = chunk.bytes;
 	    var hexArray = null;
 	    var hexDump = "";
+	    divChunk.innerHTML = "<b>(" + name + ")</b> ";
 	    if ("infos" in chunk) {
 		if (chunk.offset < chunk.infos[0].offset) {
 		    console.error("chunk.offset:"+ chunk.offset+"< chunk.infos[0].offset:"+chunk.infos[0].offset+" on "+name);
 		}
-		divChunk.innerHTML = "<b>(" + name + ")</b> ";
 		for (var idx in chunk.infos) {
 		    idx = idx >>> 0;
 		    var info = chunk.infos[idx];
@@ -45,9 +45,12 @@ class ibvContainer {
 		    divChunk.appendChild(divDump);
 		}
 	    } else {
+		var divDump = document.createElement("div");
+		divDump.className = "imgDump";
 		hexArray = toHexArray(bytes);
 		hexDump = hexArray.join(" ");
-		divChunk.innerHTML = "<b>(" + name + ")</b> <tt> " + hexDump + "</tt>";
+		divDump.innerHTML = "<tt>" + hexDump + "</tt>";
+		divChunk.appendChild(divDump);
 	    }
 	    divContainer.appendChild(divChunk);
 	}
