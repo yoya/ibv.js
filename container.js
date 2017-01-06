@@ -34,8 +34,7 @@ class ibvContainer {
 		    var divDump = document.createElement("div");
 		    divInfo.className = "imgInfo";
 		    divDump.className = "imgDump";
-		    console.log(name, nextOffset - offset, nextOffset, offset);
-		    var infoBytes = bytes.subarray(0, nextOffset - offset);
+		    var infoBytes = bytes.subarray(offset - chunk.offset, nextOffset - chunk.offset);
 		    var infoJson = JSON.stringify(info, null, " ");
 		    hexArray = Utils.toHexArray(infoBytes);
 		    hexDump = hexArray.join(" ");
