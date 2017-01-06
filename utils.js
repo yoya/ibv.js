@@ -1,6 +1,12 @@
 "use strict";
 
-function  toHexArray(arr) {
+var Utils = {};
+
+Utils.toText = function (arr) {
+    return String.fromCharCode.apply("", arr);
+};
+
+Utils.toHexArray = function(arr) {
     var hexArr = new Array(arr.length);
     for (var i in arr) {
 	var n = arr[i];
@@ -11,4 +17,4 @@ function  toHexArray(arr) {
 	hexArr[i] = h;
     }
     return hexArr;
-}
+};

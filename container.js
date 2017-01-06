@@ -37,7 +37,7 @@ class ibvContainer {
 		    console.log(name, nextOffset - offset, nextOffset, offset);
 		    var infoBytes = bytes.subarray(0, nextOffset - offset);
 		    var infoJson = JSON.stringify(info, null, " ");
-		    hexArray = toHexArray(infoBytes);
+		    hexArray = Utils.toHexArray(infoBytes);
 		    hexDump = hexArray.join(" ");
 		    divInfo.innerHTML = "<tt>" + infoJson + "</tt>";
 		    divDump.innerHTML = "<tt>" + hexDump + "</tt>";
@@ -47,7 +47,7 @@ class ibvContainer {
 	    } else {
 		var divDump = document.createElement("div");
 		divDump.className = "imgDump";
-		hexArray = toHexArray(bytes);
+		hexArray = Utils.toHexArray(bytes);
 		hexDump = hexArray.join(" ");
 		divDump.innerHTML = "<tt>" + hexDump + "</tt>";
 		divChunk.appendChild(divDump);

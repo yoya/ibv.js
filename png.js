@@ -17,9 +17,6 @@ class IO_PNG {
 	}
 	return true; // completely matching
     }
-    static toText(arr) {
-	return String.fromCharCode.apply("", arr);
-    }
     parse(arr) {
 	this.data = arr;
 	var chunkArray = [];
@@ -28,7 +25,7 @@ class IO_PNG {
 	var bytes;
 	while (bo < arrLen) {
 	    var len = ((arr[bo]*0x100 + arr[bo+1])*0x100 + arr[bo+2])*0x100 + arr[bo+3];
-	    var name = this.constructor.toText(arr.subarray(bo + 4, bo + 8));
+	    var name = Utils.toText(arr.subarray(bo + 4, bo + 8));
 	    var o = bo + 8 + len;
 	    var chunk = {name:name, offset:bo, bytes:null, crc32:null};
 	    bytes = arr.subarray(bo, o);
