@@ -63,7 +63,8 @@ class IO_JPEG {
 	    var marker2 = arr[bo + 1];
 	    var o = bo + 2;
 	    var name = this.markerName(marker2);
-	    var chunk = {name:name, marker2:marker2, offset:bo, bytes:null};
+	    var chunk = {name:name, marker2:marker2, offset:bo, bytes:null, infos:null};
+	    var infos = [{offset:bo, marker:name}];
 	    switch (marker2) {
 	    case 0xD8: case 0xD9: // SOI, EOI
 		bytes = arr.subarray(bo, o);
@@ -79,16 +80,24 @@ class IO_JPEG {
 			o++;
 		    }
 		}
+		infos.push({offset:bo+2, size:(o - bo)});
 		bytes = arr.subarray(bo, o);
 		break;
 	    default: // APPx, SOFx, DQT, DHT, ...
 		var len = arr[bo + 2]*0x100 + arr[bo + 3]; // Big endian
 		o += len
 		bytes = arr.subarray(bo, o);
+		switch(marker2) {
+		case 0xE0: // APP0
+		    var identifier = arr.subarray(bo + 4, bo + 9);
+		    /// infos.push({offset:bo + 4, identifier:identifier});
+		    break;
+		}
 		break;
 	    }
 	    bo = o;
 	    chunk.bytes = bytes;
+	    chunk.infos = infos;
 	    chunkArray.push(chunk);
 	    if (marker2 === 0xD9) { // EOF
 		break;
