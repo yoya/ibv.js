@@ -33,14 +33,15 @@ class IO_GIF {
     }
     parse(arr) {
 	this.data = arr;
-	var chunk = {name:"Signature", offset:0,
-		     bytes:this.constructor.signature()};
+	var chunk = {name:"Signature", offset:0, bytes:arr.subarray(0, 3),
+		     infos:[{offset:0, signature:this.constructor.signature()}]
+		    };
 	var chunkArray = [chunk];
 	var arrLen = arr.length;
 	var versionArr = arr.subarray(3, 6);
-	this.version = this.constructor.toText(versionArr);
-	chunkArray.push({name:"Version", offset:6, bytes:versionArr,
-			 infos:[{offset:6, versiont:this.version}]});
+	var version = this.constructor.toText(versionArr);
+	chunkArray.push({name:"Version", offset:3, bytes:versionArr,
+			 infos:[{offset:3, version:version}]});
 	// Logical Screen Descriptor
 	var sWidth  = arr[6] + 0x100*arr[7];
 	var sHeight = arr[8] + 0x100*arr[9];
@@ -57,23 +58,24 @@ class IO_GIF {
 	sizeOfGlobalColorTable = Math.pow(2, sizeOfGlobalColorTable+1);
 	var backgroundColorIndex = arr[11];
 	var pixelAspectRatio = arr[12];
-	
-	chunkArray.push({name:"GlobalDesripctor", offset:10, bytes:arr.subarray(10, 11),
-		 infos:[{offset:10,
-			 globalColorTableFlag:globalColorTableFlag,
-			 colorResolution:colorResolution,
-			 sortFlag:sortFlag,
-			 sizeOfGlobalColorTable:sizeOfGlobalColorTable},
-			{offset:11, backgroundColorIndex:backgroundColorIndex},
-			{offset:12, pixelAspectRatio:pixelAspectRatio}]
+	chunkArray.push({name:"GlobalDesripctor", offset:10, bytes:arr.subarray(10, 13),
+			 infos:[{offset:10,
+				 globalColorTableFlag:globalColorTableFlag,
+				 colorResolution:colorResolution,
+				 sortFlag:sortFlag,
+				 sizeOfGlobalColorTable:sizeOfGlobalColorTable},
+				{offset:11, backgroundColorIndex:backgroundColorIndex},
+				{offset:12, pixelAspectRatio:pixelAspectRatio}]
 			});
 	var bo = 13;
 	var o = bo;
 	if (globalColorTableFlag) {
-	    var globalColorTable = new Uint8Array(3 * sizeOfGlobalColorTable);
-	    for (var i = 0 ; i < 3 * sizeOfGlobalColorTable ; i++) {
-		globalColorTable[i] = arr[o];
-		o++;
+	    var globalColorTable = [];
+	    for (var i = 0 ; i < sizeOfGlobalColorTable ; i++) {
+		var subArray = arr.subarray(o, o+3);
+		var hexColor = "#"+toHexArray(subArray).join("");
+		globalColorTable.push(hexColor);
+		o += 3;
 	    }
 	    chunk = {name:"GlobalColorTable", offset:bo,
 		     bytes:arr.subarray(bo, o),
@@ -171,10 +173,12 @@ class IO_GIF {
 			    sizeOfLocalColorTable:sizeOfLocalColorTable});
 		o = bo + 10;
 		if (localColorTableFlag) {
-		    var localColorTable = new Uint8Array(3 * sizeOfLocalColorTable);
-		    for (var i = 0 ; i < 3 * sizeOfLocalColorTable ; i++) {
-			localColorTable[i] = arr[o];
-			o++;
+		    var localColorTable = [];
+		    for (var i = 0 ; i < sizeOfLocalColorTable ; i++) {
+			var subArray = arr.subarray(o, o+3);
+			var hexColor = "#"+toHexArray(subArray).join("");
+			localColorTable.push(hexColor);
+			o += 3;
 		    }
 		    infos.push({offset:bo+10,
 				localColorTable:localColorTable});
