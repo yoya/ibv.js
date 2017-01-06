@@ -24,9 +24,10 @@ class ibvContainer {
 	    var div = document.createElement("div");
 	    div.className = "imgChunk";
 	    //
+	    var name = chunk.name;
 	    var bytes = chunk.bytes;
 	    var hexArray = this.constructor.toHexArray(bytes);
-	    var hexDump = hexArray.join(" ");
+	    var hexDump = "<tt>(<b>" + name + "</b>) " +hexArray.join(" ") + "</tt>";
 	    // console.log(hexDump);
 	    div.innerHTML = hexDump;
 	    divContainer.appendChild(div);
