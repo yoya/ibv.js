@@ -3,6 +3,16 @@
 }
 
 .imgChunk {
+    border: inset 4px #0000ff;
+    background-color: #eeffff;
+    margine: 2px;
+}
+
+.imgInfo {
+    background-color: #fff8ff;
+    border: inset 1px #ffff00;
+}
+.imgDump {
     background-color: white;
-    border: inset 1px #0000ff;
+    border: inset 1px #ffff00;
 }
