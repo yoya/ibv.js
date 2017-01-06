@@ -82,7 +82,7 @@ class IO_JPEG {
 		bytes = arr.subarray(bo, o);
 		break;
 	    default: // APPx, SOFx, DQT, DHT, ...
-		var len = 0x100*arr[bo + 2] + arr[bo + 3]; // Big endian
+		var len = arr[bo + 2]*0x100 + arr[bo + 3]; // Big endian
 		o += len
 		bytes = arr.subarray(bo, o);
 		break;
