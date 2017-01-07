@@ -12,12 +12,14 @@ function dropFunction(func, target, userData) {
     target.addEventListener("dragenter", cancelEvent, false);
     target.addEventListener("drop"     , function(e) {
         e.preventDefault();
-	var reader = new FileReader();
-        reader.onload = function (evt) {
-	    var buf = evt.target.result;
-	    func(buf, userData);
-        }
-        reader.readAsArrayBuffer(e.dataTransfer.files[0]);
+	for (var file of e.dataTransfer.files) {
+	    var reader = new FileReader();
+            reader.onload = function (evt) {
+		var buf = evt.target.result;
+		func(buf, userData);
+            }
+            reader.readAsArrayBuffer(file);
+	}
         return false;
     }, false);
 }
