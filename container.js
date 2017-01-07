@@ -16,7 +16,7 @@ class ibvContainer {
 	    var bytes = chunk.bytes;
 	    var hexArray = null;
 	    var hexDump = "";
-	    divChunk.innerHTML = "<b>(" + name + ")</b> ";
+	    divChunk.innerHTML = name;
 	    if ("infos" in chunk) {
 		if (chunk.offset < chunk.infos[0].offset) {
 		    console.error("chunk.offset:"+ chunk.offset+"< chunk.infos[0].offset:"+chunk.infos[0].offset+" on "+name);
