@@ -1,16 +1,18 @@
 .imgContainer {
     border: double 10px #00df00;
+    margin: 3px;
 }
 
 .imgChunk {
     border: inset 4px #0000ff;
     background-color: #eeffff;
-    margine: 2px;
+    margin: 2px;
 }
 
 .imgInfo {
     background-color: #fff8ff;
     border: inset 1px #ffff00;
+    margin: 1px;
 }
 .imgDump {
     background-color: white;
