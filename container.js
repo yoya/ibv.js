@@ -5,10 +5,17 @@ class ibvContainer {
 	// console.debug(container);
 	this.container = container;
     }
+    reset() {
+	var divContainer = this.container;
+	for (var node of divContainer.childNodes) {
+	    divContainer.removeChild(node);
+	}
+    }
     add(chunkList) {
+	var divContainer = this.container;
+	//
 	var divFile = document.createElement("div");
 	divFile.className = "imgFile";
-	divFile.innerHTML = "";
 	for (var chunk of chunkList) {
 	    var divChunk = document.createElement("div");
 	    divChunk.className = "imgChunk";
@@ -54,6 +61,6 @@ class ibvContainer {
 	    }
 	    divFile.appendChild(divChunk);
 	}
-	this.container.appendChild(divFile);
+	divContainer.appendChild(divFile);
     }
 }

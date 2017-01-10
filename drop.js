@@ -12,6 +12,7 @@ function dropFunction(func, target, userData) {
     target.addEventListener("dragenter", cancelEvent, false);
     target.addEventListener("drop"     , function(e) {
         e.preventDefault();
+	func(null, userData);
 	for (var file of e.dataTransfer.files) {
 	    var reader = new FileReader();
             reader.onload = function (evt) {

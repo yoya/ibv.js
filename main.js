@@ -17,6 +17,10 @@ function main() {
  */
 
 function onImgLoad(buf, ibvC) {
+    if (buf === null) {
+	ibvC.reset();
+	return ;
+    }
     var arr = new Uint8Array(buf);
     var io = null;
     for (var imgClass of [IO_JPEG, IO_PNG, IO_GIF]) {
