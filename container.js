@@ -6,8 +6,9 @@ class ibvContainer {
 	this.container = container;
     }
     add(chunkList) {
-	var divContainer = document.createElement("div");
-	divContainer.className = "imgContainer";
+	var divFile = document.createElement("div");
+	divFile.className = "imgFile";
+	divFile.innerHTML = "";
 	for (var chunk of chunkList) {
 	    var divChunk = document.createElement("div");
 	    divChunk.className = "imgChunk";
@@ -51,8 +52,8 @@ class ibvContainer {
 		divDump.innerHTML = "<tt>" + hexDump + "</tt>";
 		divChunk.appendChild(divDump);
 	    }
-	    divContainer.appendChild(divChunk);
+	    divFile.appendChild(divChunk);
 	}
-	this.container.appendChild(divContainer);
+	this.container.appendChild(divFile);
     }
 }
