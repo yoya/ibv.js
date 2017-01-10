@@ -3,7 +3,7 @@
 class IO_JPEG {
     constructor() { ; }
     static signature() {
-	return [0xFF, 0xD8, 0xFF, 0xE0]; // SOI,APP0(JFIF-JPEG)
+	return [0xFF, 0xD8, 0xFF]; // SOI, something
     }
     markerName(marker2) {
 	var markerTable = {
