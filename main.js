@@ -30,6 +30,8 @@ function onImgLoad(buf, ibvC) {
 	console.log(cArr);
 	ibvC.add(cArr);
     } else {
+	var cArr = [{name:"Unknown Image Type", offset:0, bytes:arr, info:[]}];
+	ibvC.add(cArr);
 	console.error("Unknown Image Signature:"+ arr.subarray(0, 8).toString());
     }
 }
