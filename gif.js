@@ -36,7 +36,7 @@ class IO_GIF {
 	var chunkArray = [chunk];
 	var arrLen = arr.length;
 	var versionArr = arr.subarray(3, 6);
-	var version = Utils.toText(versionArr);
+	var version = Utils.ToText(versionArr);
 	chunkArray.push({name:"Version", offset:3, bytes:versionArr,
 			 infos:[{offset:3, version:version}]});
 	// Logical Screen Descriptor
@@ -70,7 +70,7 @@ class IO_GIF {
 	    var globalColorTable = [];
 	    for (var i = 0 ; i < sizeOfGlobalColorTable ; i++) {
 		var subArray = arr.subarray(o, o+3);
-		var hexColor = "#"+Utils.toHexArray(subArray).join("");
+		var hexColor = "#"+Utils.ToHexArray(subArray).join("");
 		globalColorTable.push(hexColor);
 		o += 3;
 	    }
@@ -117,11 +117,11 @@ class IO_GIF {
 			       {offset:o+3, transparentColorIndex});
 		    break;
 		case 0xFE: // Comment Extention
-		    var commentData = Utils.toText(arr.subarray(o, o + extentionDataSize));
+		    var commentData = Utils.ToText(arr.subarray(o, o + extentionDataSize));
 		    break;		    
 		case 0xFF: // Application Extension
-		    var applicationIdentifier = Utils.toText(arr.subarray(o, o + 8))
-		    var applicationAuthenticationCode = Utils.toText(arr.subarray(o + 8, o + 12));
+		    var applicationIdentifier = Utils.ToText(arr.subarray(o, o + 8))
+		    var applicationAuthenticationCode = Utils.ToText(arr.subarray(o + 8, o + 12));
 		    infos.push({offset:o,
 				applicationIdentifier:applicationIdentifier},
 			       {offset:o+8,
@@ -173,7 +173,7 @@ class IO_GIF {
 		    var localColorTable = [];
 		    for (var i = 0 ; i < sizeOfLocalColorTable ; i++) {
 			var subArray = arr.subarray(o, o+3);
-			var hexColor = "#"+Utils.toHexArray(subArray).join("");
+			var hexColor = "#"+Utils.ToHexArray(subArray).join("");
 			localColorTable.push(hexColor);
 			o += 3;
 		    }

@@ -26,7 +26,7 @@ class IO_PNG {
 	var bytes;
 	while (bo < arrLen) {
 	    var len = ((arr[bo]*0x100 + arr[bo+1])*0x100 + arr[bo+2])*0x100 + arr[bo+3];
-	    var name = Utils.toText(arr.subarray(bo + 4, bo + 8));
+	    var name = Utils.ToText(arr.subarray(bo + 4, bo + 8));
 	    var chunk = {name:name, offset:bo, bytes:null, crc32:null, infos:null};
 	    var infos = [{offset:bo, len:len}];
 	    infos.push({offset:bo+4, name:name});
