@@ -14,7 +14,7 @@ Utils.ToHex = function(n) {
 Utils.ToHexArray = function(arr) {
     var hexArr = new Array(arr.length);
     for (var i in arr) {
-	hexArr[i] =  Utils.ToHex(arr[i]);
+	hexArr[i] =  this.ToHex(arr[i]);
     }
     return hexArr;
 };
