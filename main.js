@@ -12,9 +12,9 @@ function main() {
     dropFunction(onImgLoad, null, ibvC);
 }
 
- /*
-  * buffer: ArrayBuffer
-  */
+/*
+ * buffer: ArrayBuffer
+ */
 
 function onImgLoad(buf, ibvC) {
     var arr = new Uint8Array(buf);
@@ -24,14 +24,15 @@ function onImgLoad(buf, ibvC) {
 	    var io = new imgClass();
 	}
     }
+    var cArr = null;
     if (io !== null) {
 	io.parse(arr);
-	var cArr = io.getChunkArray();
+	cArr = io.getChunkArray();
 	console.log(cArr);
-	ibvC.add(cArr);
     } else {
-	var cArr = [{name:"Unknown Image Type", offset:0, bytes:arr, info:[]}];
+	cArr = [{name:"Unknown Image Type", offset:0, bytes:arr, info:[]}];
 	ibvC.add(cArr);
 	console.error("Unknown Image Signature:"+ arr.subarray(0, 8).toString());
     }
+    ibvC.add(cArr);
 }
