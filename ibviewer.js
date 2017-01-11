@@ -1,5 +1,4 @@
 "use strict";
-// require drop.js
 
 class ImageBinaryViewer {
     constructor(container, imageClassList) {
