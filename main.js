@@ -1,7 +1,5 @@
 "use strict";
 
-function getById(id) { return document.getElementById(id); }
-
 document.addEventListener("DOMContentLoaded", function(event) {
     main();
 });
