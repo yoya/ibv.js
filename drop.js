@@ -1,16 +1,13 @@
 "use strict";
 
-var cancelEvent = function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-};
-
 function dropFunction(target, func) {
     var target = (target)?target:document;
-    target.addEventListener("dragover" , cancelEvent, false);
-    target.addEventListener("dragenter", cancelEvent, false);
-    target.addEventListener("drop"     , function(e) {
+    var cancelEvent = function(e) {
+	e.preventDefault();
+	e.stopPropagation();
+	return false;
+    };
+    var dropEvent = function(e) {
         e.preventDefault();
 	func(null);
 	var files = e.dataTransfer.files;
@@ -24,5 +21,8 @@ function dropFunction(target, func) {
             reader.readAsArrayBuffer(file);
 	}
         return false;
-    }, false);
+    }
+    target.addEventListener("dragover" , cancelEvent, false);
+    target.addEventListener("dragenter", cancelEvent, false);
+    target.addEventListener("drop"     , dropEvent, false);
 }
