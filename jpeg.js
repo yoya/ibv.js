@@ -1,7 +1,9 @@
 "use strict";
 
 class IO_JPEG {
-    constructor() { ; }
+    constructor() {
+	this.binary = new Binary("BigEndian");
+    }
     static signature() {
 	return [0xFF, 0xD8, 0xFF]; // SOI, something
     }
@@ -84,9 +86,10 @@ class IO_JPEG {
 		bytes = arr.subarray(bo, o);
 		break;
 	    default: // APPx, SOFx, DQT, DHT, ...
-		var len = arr[bo + 2]*0x100 + arr[bo + 3]; // Big endian
-		o += len
-		bytes = arr.subarray(bo, o);
+		var len = this.binary.readUint16(arr, bo + 2); // Big endian
+		o += 2;
+		bytes = arr.subarray(o, len - 2);
+		o += len - 2;
 		switch(marker2) {
 		case 0xE0: // APP0
 		    var identifier = arr.subarray(bo + 4, bo + 9);

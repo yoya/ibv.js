@@ -1,7 +1,9 @@
 "use strict";
 
 class IO_GIF {
-    constructor() { ; }
+    constructor() {
+	this.binary = new Binary("LittleEndian");
+    }
     static signature() {
 	return [0x47, 0x49, 0x46]; // "GIF"
     }
@@ -107,7 +109,7 @@ class IO_GIF {
 		    var disposalMethod      = (tmp >>> 2) & 0x3;
 		    var userInputFlag       = (tmp >>> 1) & 0x1;
 		    var transprentColorFlag = (tmp >>> 0) & 0x1;
-		    var delayTime =  arr[o+1] + 0x100*arr[o+2];
+		    var delayTime =  this.binary.readUint16(arr, o+1);
 		    var transparentColorIndex = arr[o+3];
 		    infos.push({offset:o,
 				disposalMethod:disposalMethod,
@@ -149,10 +151,10 @@ class IO_GIF {
 		o += extentionDataSize + 1;
 	        break;
 	    case 0x2C: // Image Separator
-		var left   = arr[bo + 1] + 0x100*arr[bo + 2];
-		var top    = arr[bo + 3] + 0x100*arr[bo + 4];
-		var width  = arr[bo + 5] + 0x100*arr[bo + 6];
-		var height = arr[bo + 7] + 0x100*arr[bo + 8];
+		var left   = this.binary.readUint16(arr, bo + 1);
+		var top    = this.binary.readUint16(arr, bo + 3);
+		var width  = this.binary.readUint16(arr, bo + 5);
+		var height = this.binary.readUint16(arr, bo + 7);
 		var tmp = arr[bo + 9];
 		var localColorTableFlag   = (tmp >>> 7) & 0x1;
 		var interlaceFlag         = (tmp >>> 6) & 0x1;
