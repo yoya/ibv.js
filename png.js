@@ -38,18 +38,18 @@ class IO_PNG {
 		case "IHDR":
 		    var width = this.binary.readUint32(arr, o);
 		    var height = this.binary.readUint32(arr, o+4);
-		    var bitDepth = arr[o+5];
-		    var colourType = arr[o+6];
-		    var compressionMethod = arr[o+7];
-		    var filterMethod = arr[o+8];
-		    var interlaceMethod = arr[o+9];
+		    var bitDepth = arr[o+8];
+		    var colourType = arr[o+9];
+		    var compressionMethod = arr[o+10];
+		    var filterMethod = arr[o+11];
+		    var interlaceMethod = arr[o+12];
 		    infos.push({offset:o, width:width});
 		    infos.push({offset:o+4, height:height});
-		    infos.push({offset:o+5, bitDepth:bitDepth});
-		    infos.push({offset:o+6, colourType:colourType});
-		    infos.push({offset:o+7, compressionMethod:compressionMethod});
-		    infos.push({offset:o+8, filterMethod:filterMethod});
-		    infos.push({offset:o+9, interlaceMethod:interlaceMethod});
+		    infos.push({offset:o+8, bitDepth:bitDepth});
+		    infos.push({offset:o+9, colourType:colourType});
+		    infos.push({offset:o+10, compressionMethod:compressionMethod});
+		    infos.push({offset:o+11, filterMethod:filterMethod});
+		    infos.push({offset:o+12, interlaceMethod:interlaceMethod});
 		    break;
 		default:
 		    infos.push({offset:o, nBytes:len});
