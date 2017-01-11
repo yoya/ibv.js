@@ -1,7 +1,9 @@
 "use strict";
 
 class IO_PNG {
-    constructor() { ; }
+    constructor() {
+	this.binary = new Binary("BigEndian");
+    }
     static signature() { // "\x89PNG\r\n^Z\n"
 	return [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A];
     }
@@ -25,14 +27,38 @@ class IO_PNG {
 	var bo = 8; //bo: byteOffset(& baseOffset);
 	var bytes;
 	while (bo < arrLen) {
-	    var len = ((arr[bo]*0x100 + arr[bo+1])*0x100 + arr[bo+2])*0x100 + arr[bo+3];
+	    var len = this.binary.readUint32(arr, bo);
 	    var type = Utils.ToText(arr.subarray(bo + 4, bo + 8));
 	    var chunk = {name:type, offset:bo, bytes:null, crc32:null, infos:null};
 	    var infos = [{offset:bo, len:len}];
-	    infos.push({offset:bo+4, name:name});
-	    infos.push({offset:bo+8, nBytes:len});
-	    var o = bo + 8 + len;
-	    var crc32  = ((arr[o]*0x100 + arr[o+1])*0x100 + arr[o+2])*0x100 + arr[o+3];
+	    infos.push({offset:bo+4, type:type});
+	    var o = bo + 8;
+	    if (0 < len) {
+		switch (type) {
+		case "IHDR":
+		    var width = this.binary.readUint32(arr, o);
+		    var height = this.binary.readUint32(arr, o+4);
+		    var bitDepth = arr[o+5];
+		    var colourType = arr[o+6];
+		    var compressionMethod = arr[o+7];
+		    var filterMethod = arr[o+8];
+		    var interlaceMethod = arr[o+9];
+		    infos.push({offset:o, width:width});
+		    infos.push({offset:o+4, height:height});
+		    infos.push({offset:o+5, bitDepth:bitDepth});
+		    infos.push({offset:o+6, colourType:colourType});
+		    infos.push({offset:o+7, compressionMethod:compressionMethod});
+		    infos.push({offset:o+8, filterMethod:filterMethod});
+		    infos.push({offset:o+9, interlaceMethod:interlaceMethod});
+		    break;
+		default:
+		    infos.push({offset:o, nBytes:len});
+		    break;
+		}
+
+	    }
+	    o = bo + 8 + len;
+	    var crc32  = this.binary.readUint32(arr, o);
 	    chunk.crc32 = crc32;
 	    infos.push({offset:o, crc32:crc32});
 	    o += 4;
