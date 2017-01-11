@@ -29,19 +29,19 @@ class ImageBinaryViewer {
 	    chunkList = [{name:"Unknown Image Type", offset:0, bytes:arr, info:[]}];
 	    console.error("Unknown Image Signature:"+ arr.subarray(0, 8).toString());
 	}
-	var divContainer = this.container;
+	var containerNode = this.container;
 	//
-	var divFile = document.createElement("div");
-	divFile.className = "imgFile";
+	var fileNode = document.createElement("div");
+	fileNode.className = "imgFile";
 	for (var chunk of chunkList) {
-	    var divChunk = document.createElement("div");
-	    divChunk.className = "imgChunk";
+	    var chunkNode = document.createElement("div");
+	    chunkNode.className = "imgChunk";
 	    //
 	    var name = chunk.name;
 	    var bytes = chunk.bytes;
 	    var hexArray = null;
 	    var hexDump = "";
-	    divChunk.innerHTML = name;
+	    chunkNode.innerHTML = name;
 	    if ("infos" in chunk) {
 		if (chunk.offset < chunk.infos[0].offset) {
 		    console.error("chunk.offset:"+ chunk.offset+"< chunk.infos[0].offset:"+chunk.infos[0].offset+" on "+name);
@@ -55,30 +55,30 @@ class ImageBinaryViewer {
 		    } else {
 			var nextOffset = chunk.offset + bytes.length;
 		    }
-		    var divInfo = document.createElement("div");
-		    var divDump = document.createElement("div");
-		    divInfo.className = "imgInfo";
-		    divDump.className = "imgDump";
+		    var infoNode = document.createElement("div");
+		    var dumpNode = document.createElement("div");
+		    infoNode.className = "imgInfo";
+		    dumpNode.className = "imgDump";
 		    var infoBytes = bytes.subarray(offset - chunk.offset, nextOffset - chunk.offset);
 		    var infoJson = JSON.stringify(info, null, " ");
 		    hexArray = Utils.ToHexArray(infoBytes);
 		    hexDump = hexArray.join(" ");
-		    divInfo.innerHTML = "<tt>" + infoJson + "</tt>";
-		    divDump.innerHTML = "<tt>" + hexDump + "</tt>";
-		    divChunk.appendChild(divInfo);
-		    divChunk.appendChild(divDump);
+		    infoNode.innerHTML = "<tt>" + infoJson + "</tt>";
+		    dumpNode.innerHTML = "<tt>" + hexDump + "</tt>";
+		    chunkNode.appendChild(infoNode);
+		    chunkNode.appendChild(dumpNode);
 		}
 	    } else {
-		var divDump = document.createElement("div");
-		divDump.className = "imgDump";
+		var dumpNode = document.createElement("div");
+		dumpNode.className = "imgDump";
 		hexArray = Utils.ToHexArray(bytes);
 		hexDump = hexArray.join(" ");
-		divDump.innerHTML = "<tt>" + hexDump + "</tt>";
-		divChunk.appendChild(divDump);
+		dumpNode.innerHTML = "<tt>" + hexDump + "</tt>";
+		chunkNode.appendChild(dumpNode);
 	    }
-	    divFile.appendChild(divChunk);
+	    fileNode.appendChild(chunkNode);
 	}
-	divContainer.appendChild(divFile);
+	containerNode.appendChild(fileNode);
     }
 }
 
