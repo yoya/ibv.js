@@ -1,17 +1,34 @@
 "use strict";
+// require drop.js
 
-class ibvContainer {
-    constructor(container) {
-	// console.debug(container);
+class ImageBinaryViewer {
+    constructor(container, imageClassList) {
 	this.container = container;
+	this.imageClassList = imageClassList;
     }
     reset() {
-	var divContainer = this.container;
-	for (var node of divContainer.childNodes) {
-	    divContainer.removeChild(node);
+	var container = this.container;
+	for (var node of this.container.childNodes) {
+	    container.removeChild(node);
 	}
     }
-    add(chunkList) {
+    add(buf) {
+	var arr = new Uint8Array(buf);
+	var io = null;
+	for (var imgClass of this.imageClassList) {
+	    if (imgClass.verifySig(arr)) {
+		var io = new imgClass();
+	    }
+	}
+	var chunkList = null;
+	if (io !== null) {
+	    io.parse(arr);
+	    chunkList = io.getChunkList();
+	    console.debug(chunkList);
+	} else {
+	    chunkList = [{name:"Unknown Image Type", offset:0, bytes:arr, info:[]}];
+	    console.error("Unknown Image Signature:"+ arr.subarray(0, 8).toString());
+	}
 	var divContainer = this.container;
 	//
 	var divFile = document.createElement("div");
@@ -64,3 +81,4 @@ class ibvContainer {
 	divContainer.appendChild(divFile);
     }
 }
+
