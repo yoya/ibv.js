@@ -32,8 +32,10 @@ class IO_GIF {
     }
     parse(arr) {
 	this.data = arr;
-	var chunk = {name:"Signature", offset:0, bytes:arr.subarray(0, 3),
-		     infos:[{offset:0, signature:this.constructor.signature()}]
+	var sigArr = arr.subarray(0, 3);
+	var signature = Utils.ToText(sigArr);
+	var chunk = {name:"Signature", offset:0, bytes:sigArr,
+		     infos:[{offset:0, signature:signature}]
 		    };
 	var chunkList = [chunk];
 	var arrLen = arr.length;
