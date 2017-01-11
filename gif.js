@@ -35,16 +35,16 @@ class IO_GIF {
 	var chunk = {name:"Signature", offset:0, bytes:arr.subarray(0, 3),
 		     infos:[{offset:0, signature:this.constructor.signature()}]
 		    };
-	var chunkArray = [chunk];
+	var chunkList = [chunk];
 	var arrLen = arr.length;
 	var versionArr = arr.subarray(3, 6);
 	var version = Utils.ToText(versionArr);
-	chunkArray.push({name:"Version", offset:3, bytes:versionArr,
+	chunkList.push({name:"Version", offset:3, bytes:versionArr,
 			 infos:[{offset:3, version:version}]});
 	// Logical Screen Descriptor
 	var sWidth  = arr[6] + 0x100*arr[7];
 	var sHeight = arr[8] + 0x100*arr[9];
-	chunkArray.push({name:"LogicalScreenDescriptor",
+	chunkList.push({name:"LogicalScreenDescriptor",
 			 offset:6, bytes:arr.subarray(6, 10),
 			 infos:[{offset:6, width:sWidth},
 				{offset:8, height:sHeight}]});
@@ -57,7 +57,7 @@ class IO_GIF {
 	sizeOfGlobalColorTable = Math.pow(2, sizeOfGlobalColorTable+1);
 	var backgroundColorIndex = arr[11];
 	var pixelAspectRatio = arr[12];
-	chunkArray.push({name:"GlobalDesripctor", offset:10, bytes:arr.subarray(10, 13),
+	chunkList.push({name:"GlobalDesripctor", offset:10, bytes:arr.subarray(10, 13),
 			 infos:[{offset:10,
 				 globalColorTableFlag:globalColorTableFlag,
 				 colorResolution:colorResolution,
@@ -80,7 +80,7 @@ class IO_GIF {
 		     bytes:arr.subarray(bo, o),
 		     infos:[{offset:bo,
 			     globalColorTable:globalColorTable}]};
-	    chunkArray.push(chunk);
+	    chunkList.push(chunk);
 	    bo = o;
 	}
 	var trail = false;
@@ -205,14 +205,14 @@ class IO_GIF {
 	    }
 	    chunk.bytes = arr.subarray(bo, o);
 	    chunk.infos = infos;
-	    chunkArray.push(chunk);
+	    chunkList.push(chunk);
 	    bo = o;
 	}
-	this.chunkArray = chunkArray;
+	this.chunkList = chunkList;
 	return 
     }
-    getChunkArray() {
-	return this.chunkArray;
+    getChunkList() {
+	return this.chunkList;
     }
     build() {
 	;

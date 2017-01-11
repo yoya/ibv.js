@@ -51,7 +51,7 @@ class IO_JPEG {
     }
     parse(arr) {
 	this.data = arr;
-	var chunkArray = [];
+	var chunkList = [];
 	var arrLen = arr.length;
 	var bo = 0; //bo: byteOffset(& baseOffset);
 	var bytes;
@@ -101,16 +101,16 @@ class IO_JPEG {
 	    bo = o;
 	    chunk.bytes = bytes;
 	    chunk.infos = infos;
-	    chunkArray.push(chunk);
+	    chunkList.push(chunk);
 	    if (marker2 === 0xD9) { // EOF
 		break;
 	    }
 	}
-	this.chunkArray = chunkArray;
+	this.chunkList = chunkList;
 	return 
     }
-    getChunkArray() {
-	return this.chunkArray;
+    getChunkList() {
+	return this.chunkList;
     }
     build() {
 	;

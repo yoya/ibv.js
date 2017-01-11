@@ -22,7 +22,7 @@ class IO_PNG {
     parse(arr) {
 	this.data = arr;
 	var chunk = {name:"Signature", offset:0, bytes:this.constructor.signature()};
-	var chunkArray = [chunk];
+	var chunkList = [chunk];
 	var arrLen = arr.length;
 	var bo = 8; //bo: byteOffset(& baseOffset);
 	var bytes;
@@ -66,16 +66,16 @@ class IO_PNG {
 	    bo = o;
 	    chunk.bytes = bytes;
 	    chunk.infos = infos;
-	    chunkArray.push(chunk);
+	    chunkList.push(chunk);
 	    if (type  === "IEND") {
 		break;
 	    }
 	}
-	this.chunkArray = chunkArray;
+	this.chunkList = chunkList;
 	return 
     }
-    getChunkArray() {
-	return this.chunkArray;
+    getChunkList() {
+	return this.chunkList;
     }
     build() {
 	;
