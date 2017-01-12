@@ -82,7 +82,7 @@ class IO_JPEG {
 			o++;
 		    }
 		}
-		infos.push({offset:bo+2, size:(o - bo)});
+		infos.push({offset:bo+2, nBytes:(o - bo)});
 		bytes = arr.subarray(bo, o);
 		break;
 	    default: // APPx, SOFx, DQT, DHT, ...
