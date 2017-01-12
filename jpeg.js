@@ -88,7 +88,7 @@ class IO_JPEG {
 	    default: // APPx, SOFx, DQT, DHT, ...
 		var len = this.binary.readUint16(arr, bo + 2); // Big endian
 		o += 2;
-		bytes = arr.subarray(o, len - 2);
+		bytes = arr.subarray(o, o + len - 2);
 		o += len - 2;
 		switch(marker2) {
 		case 0xE0: // APP0
