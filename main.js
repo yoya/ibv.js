@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 
 function main() {
-    var container = document.getElementById("ibv_container");
-    var ibviewer = new ImageBinaryViewer(container, [IO_JPEG, IO_PNG, IO_GIF]);
+    var containerNode = document.getElementById("ibv_container");
+    var ibviewer = new ImageBinaryViewer(containerNode, [IO_JPEG, IO_PNG, IO_GIF, IO_TIFF]);
     dropFunction(null, function(buf) {
 	if (buf === null) {
 	    ibviewer.reset();

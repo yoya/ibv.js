@@ -5,15 +5,15 @@
 */
 
 class ImageBinaryViewer {
-    constructor(container, imageClassList) {
-	this.container = container;
+    constructor(containerNode, imageClassList) {
+	this.containerNode = containerNode;
 	this.imageClassList = imageClassList;
     }
     reset() {
-	var container = this.container;
-	while (container.firstChild) {
-            container.removeChild(container.firstChild);
-        }
+	var containerNode = this.containerNode;
+	while (containerNode.firstChild) {
+	    containerNode.removeChild(containerNode.firstChild);
+	}
     }
     add(buf) {
 	var arr = new Uint8Array(buf);
@@ -32,7 +32,7 @@ class ImageBinaryViewer {
 	    chunkList = [{name:"Unknown Image Type", offset:0, bytes:arr, info:[]}];
 	    console.error("Unknown Image Signature:"+ arr.subarray(0, 8).toString());
 	}
-	var containerNode = this.container;
+	var containerNode = this.containerNode;
 	//
 	var fileNode = document.createElement("div");
 	fileNode.className = "imgFile";
