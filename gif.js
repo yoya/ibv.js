@@ -50,10 +50,10 @@ class IO_GIF {
 	var version = Utils.ToText(versionArr);
 	chunkList.push({name:"Version", offset:3, bytes:versionArr,
 			 infos:[{offset:3, version:version}]});
-	// Logical Screen Descriptor
+	// Logical Screen
 	var sWidth  = arr[6] + 0x100*arr[7];
 	var sHeight = arr[8] + 0x100*arr[9];
-	chunkList.push({name:"LogicalScreenDescriptor",
+	chunkList.push({name:"LogicalScreen",
 			 offset:6, bytes:arr.subarray(6, 10),
 			 infos:[{offset:6, width:sWidth},
 				{offset:8, height:sHeight}]});
