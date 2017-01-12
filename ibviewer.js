@@ -11,9 +11,9 @@ class ImageBinaryViewer {
     }
     reset() {
 	var container = this.container;
-	for (var node of this.container.childNodes) {
-	    container.removeChild(node);
-	}
+	while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
     }
     add(buf) {
 	var arr = new Uint8Array(buf);
