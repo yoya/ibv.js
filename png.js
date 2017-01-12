@@ -21,7 +21,9 @@ class IO_PNG {
     }
     parse(arr) {
 	this.data = arr;
-	var chunk = {name:"Signature", offset:0, bytes:this.constructor.signature()};
+	var signature = arr.subarray(0, 8);
+	var chunk = {name:"Signature", offset:0, bytes:signature,
+		     infos:[{offset:0, signature:Utils.ToText(signature)}]};
 	var chunkList = [chunk];
 	var arrLen = arr.length;
 	var bo = 8; //bo: byteOffset(& baseOffset);
