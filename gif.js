@@ -52,9 +52,9 @@ class IO_GIF {
 				{offset:8, height:sHeight}]});
 	var tmp = arr[10];
 	var globalColorTableFlag   = (tmp >>> 7) & 0x1;
-	var colorResolution        = (tmp >>> 4) & 0x3;
+	var colorResolution        = (tmp >>> 4) & 0x7;
 	var sortFlag               = (tmp >>> 3) & 0x1;
-	var sizeOfGlobalColorTable = (tmp >>> 0) & 0x3;
+	var sizeOfGlobalColorTable = (tmp >>> 0) & 0x7;
 	colorResolution = colorResolution + 1,
 	sizeOfGlobalColorTable = Math.pow(2, sizeOfGlobalColorTable+1);
 	var backgroundColorIndex = arr[11];
@@ -161,7 +161,7 @@ class IO_GIF {
 		var localColorTableFlag   = (tmp >>> 7) & 0x1;
 		var interlaceFlag         = (tmp >>> 6) & 0x1;
 		var sortFlag              = (tmp >>> 5) & 0x1;
-		var sizeOfLocalColorTable = (tmp >>> 0) & 0x3;
+		var sizeOfLocalColorTable = (tmp >>> 0) & 0x7;
 		sizeOfLocalColorTable = Math.pow(2, sizeOfLocalColorTable+1);
 		infos.push({offset:bo+1, left:left},
 			   {offset:bo+3, top:top},
