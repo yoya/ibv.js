@@ -122,7 +122,7 @@ class IO_GIF {
 			       {offset:o+1, delayTime:delayTime},
 			       {offset:o+3, transparentColorIndex});
 		    break;
-		case 0xFE: // Comment Extention
+		case 0xFE: // Comment Extension
 		    var commentData = Utils.ToText(arr.subarray(o, o + extensionDataSize));
 		    break;
 		case 0xFF: // Application Extension
@@ -134,11 +134,11 @@ class IO_GIF {
 				applicationAuthenticationCode:applicationAuthenticationCode});
 		    break;
 		default:
-		    console.error("unknown extention block label:"+extensionBlockLabel);
+		    console.error("unknown extension block label:"+extensionBlockLabel);
 		    break;
 		}
 		o += extensionDataSize;
-		if (extensionBlockLabel === 0xFF) { //  // Application Extension
+		if (extensionBlockLabel === 0xFF) { // Application Extension
 		    var aoffset = o;
 		    var applicationData = [];
 		    while (true) {
