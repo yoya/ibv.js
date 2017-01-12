@@ -59,10 +59,12 @@ class ImageBinaryViewer {
 		    infoNode.className = "imgInfo";
 		    dumpNode.className = "imgDump";
 		    var infoBytes = bytes.subarray(offset - chunk.offset, nextOffset - chunk.offset);
+		    var offset = info.offset;
+		    delete info.offset;
 		    var infoJson = JSON.stringify(info, null, " ");
 		    hexArray = Utils.ToHexArray(infoBytes);
 		    hexDump = hexArray.join(" ");
-		    infoNode.innerHTML = "<tt>" + infoJson + "</tt>";
+		    infoNode.innerHTML = "<tt> offset:0x" + Utils.ToHex(offset) + ", " + infoJson + "</tt>";
 		    dumpNode.innerHTML = "<tt>" + hexDump + "</tt>";
 		    chunkNode.appendChild(infoNode);
 		    chunkNode.appendChild(dumpNode);
