@@ -61,13 +61,13 @@ class IO_TIFF {
 			infos:[{offset:2, version:version}]});
 	var ifd0thPointer = this.binary.readUint32(arr, 4);
 	this.chunkList.push({name:"0thIFDPointer", offset:4, bytes:arr.subarray(4, 8),
-			infos:[{offset:4, IFD0thPointer:ifd0thPointer}]});
+			     infos:[{offset:4, IFD0thPointer:Utils.ToHex(ifd0thPointer)}]});
 	// IFD procedure
 	var o = this.parseIFD(arr, ifd0thPointer, "0thIFD");
 
 	var ifd1thPointer = this.binary.readUint32(arr, o);
 	this.chunkList.push({offset:o, name:"1thIFDPointer", bytes:arr.subarray(o, o+4),
-			     infos:[{offset:o, IFD1thPointer:ifd1thPointer}]});
+			     infos:[{offset:o, IFD1thPointer:Utils.ToHex(ifd1thPointer)}]});
 	if (ifd1thPointer > 0) {
 	    this.parseIFD(arr, ifd1thPointer, "1thIFD");
 	}
