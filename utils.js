@@ -1,5 +1,9 @@
 "use strict";
 
+/*
+  2017/01/06- yoya@awm.jp
+*/
+
 var Utils = {};
 
 Utils.ToText = function (arr) {

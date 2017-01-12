@@ -1,5 +1,12 @@
 "use strict";
 
+/*
+  2017/01/06- yoya@awm.jp
+  ref)
+  - https://www.w3.org/TR/PNG/
+  - http://www.libpng.org/pub/png/spec/
+*/
+
 class IO_PNG {
     constructor() {
 	this.binary = new Binary("BigEndian");

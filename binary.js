@@ -1,5 +1,9 @@
 "use strict";
 
+/*
+  2017/01/11- yoya@awm.jp
+*/
+
 class Binary {
     constructor(byteOrder) {
 	this.setByteOrder(byteOrder);

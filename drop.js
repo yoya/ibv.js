@@ -1,5 +1,9 @@
 "use strict";
 
+/*
+  2017/01/05- yoya@awm.jp
+*/
+
 function dropFunction(target, func) {
     var target = (target)?target:document;
     var cancelEvent = function(e) {

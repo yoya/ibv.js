@@ -1,5 +1,12 @@
 "use strict";
 
+/*
+  2017/01/06- yoya@awm.jp
+  ref)
+  - https://www.w3.org/Graphics/GIF/spec-gif89a.txt
+*/
+
+
 class IO_GIF {
     constructor() {
 	this.binary = new Binary("LittleEndian");

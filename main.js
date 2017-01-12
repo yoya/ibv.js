@@ -1,5 +1,9 @@
 "use strict";
 
+/*
+  2017/01/05- yoya@awm.jp
+*/
+
 document.addEventListener("DOMContentLoaded", function(event) {
     main();
 });

@@ -1,5 +1,12 @@
 "use strict";
 
+/*
+  2017/01/05- yoya@awm.jp
+  ref)
+  - https://www.w3.org/Graphics/JPEG/itu-t81.pdf
+  - https://www.w3.org/Graphics/JPEG/jfif3.pdf
+*/
+
 class IO_JPEG {
     constructor() {
 	this.binary = new Binary("BigEndian");
