@@ -143,14 +143,15 @@ class IO_GIF {
 		    var applicationData = [];
 		    while (true) {
 			var blockSize = arr[o];
+			infos.push({offset:o, applicationDataBlockSize:blockSize});
 			if (blockSize === 0) {
 			    break;
 			}
-			applicationData = applicationData.concat(arr.subarray(o+1, o+1+blockSize));
-			o += 1 + blockSize;
+			o += 1;
+			infos.push({offset:o, nBytes:blockSize});
+			o += blockSize;
 		    }
-		    infos.push({offset:aoffset,
-				applicationData:applicationData});
+
 		}
 		var extensionBlockTrailer = arr[o];
 		infos.push({offset:o,
@@ -196,14 +197,15 @@ class IO_GIF {
 		var imageData = [];
 		while (true) {
 		    var blockSize = arr[o];
+		    infos.push({offset:o, imageBlockSize:blockSize});
 		    if (blockSize === 0) {
-			o++;
+			o += 1;
 			break;
 		    }
-		    imageData = imageData.concat(arr.subarray(o+1, o+1+blockSize));
-		    o += 1 + blockSize;
+		    o += 1;
+		    infos.push({offset:o, nBytes:blockSize});
+		    o += blockSize;
 		}
-		infos.push({offset:ioffset, imageData:imageData});
 		break;
 	    default:
 		console.error("unknown separator:"+separator);
