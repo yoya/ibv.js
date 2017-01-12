@@ -3,12 +3,12 @@
 */
 
 .imgFile {
-    border: double 10px #00df00;
+    border: double 10px #0000ff;
     margin: 3px;
 }
 
 .imgChunk {
-    border: inset 4px #0000ff;
+    border: inset 4px #dfdf00;
     background-color: #eeffff;
     margin: 2px;
 }
