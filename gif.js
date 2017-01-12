@@ -98,10 +98,12 @@ class IO_GIF {
 		break;
 	    case 0x21: // Extension Separator
 		var extensionBlockLabel = arr[bo + 1];
-		var extentionDataSize =  arr[bo + 2];
+		var extensionDataSize =  arr[bo + 2];
 		infos.push({offset:bo + 1,
 			    extensionBlockLabel:extensionBlockLabel});
-		if (extentionDataSize === 0) {
+		infos.push({offset:bo + 2,
+			    extensionDataSize:extensionDataSize});
+		if (extensionDataSize === 0) {
 		    break; // no data
 		}
 		o = bo + 3;
@@ -121,22 +123,27 @@ class IO_GIF {
 			       {offset:o+3, transparentColorIndex});
 		    break;
 		case 0xFE: // Comment Extention
-		    var commentData = Utils.ToText(arr.subarray(o, o + extentionDataSize));
-		    break;		    
+		    var commentData = Utils.ToText(arr.subarray(o, o + extensionDataSize));
+		    break;
 		case 0xFF: // Application Extension
 		    var applicationIdentifier = Utils.ToText(arr.subarray(o, o + 8))
-		    var applicationAuthenticationCode = Utils.ToText(arr.subarray(o + 8, o + 12));
+		    var applicationAuthenticationCode = Utils.ToText(arr.subarray(o + 8, o + 11));
 		    infos.push({offset:o,
 				applicationIdentifier:applicationIdentifier},
 			       {offset:o+8,
 				applicationAuthenticationCode:applicationAuthenticationCode});
-		    o += 12;
+		    break;
+		default:
+		    console.error("unknown extention block label:"+extensionBlockLabel);
+		    break;
+		}
+		o += extensionDataSize;
+		if (extensionBlockLabel === 0xFF) { //  // Application Extension
 		    var aoffset = o;
 		    var applicationData = [];
 		    while (true) {
 			var blockSize = arr[o];
 			if (blockSize === 0) {
-			    o--; // extensionBlockTrailer
 			    break;
 			}
 			applicationData = applicationData.concat(arr.subarray(o+1, o+1+blockSize));
@@ -144,13 +151,11 @@ class IO_GIF {
 		    }
 		    infos.push({offset:aoffset,
 				applicationData:applicationData});
-		    break;
-		default:
-		    console.error("unknown extention block label:"+extensionBlockLabel);
-		    break;
 		}
-		var extensionBlockTrailer = arr[o + extentionDataSize];
-		o += extentionDataSize + 1;
+		var extensionBlockTrailer = arr[o];
+		infos.push({offset:o,
+			    extensionBlockTrailer});
+		o += 1;
 	        break;
 	    case 0x2C: // Image Separator
 		var left   = this.binary.readUint16(arr, bo + 1);
