@@ -87,15 +87,18 @@ class IO_JPEG {
 		break;
 	    default: // APPx, SOFx, DQT, DHT, ...
 		var len = this.binary.readUint16(arr, bo + 2); // Big endian
+		infos.push({offset:bo+2, length:len});
 		o += 2;
-		bytes = arr.subarray(o, o + len - 2);
-		o += len - 2;
+		bytes = arr.subarray(bo, bo + 2 + len);
 		switch(marker2) {
 		case 0xE0: // APP0
-		    var identifier = arr.subarray(bo + 4, bo + 9);
-		    /// infos.push({offset:bo + 4, identifier:identifier});
+		    var identifier = Utils.ToText(arr.subarray(o, o + 5));
+		    infos.push({offset:o, identifier:identifier});
 		    break;
+		default:
+		    infos.push({offset:o, nBytes:len - 2});
 		}
+		o = bo + 2 + len;
 		break;
 	    }
 	    bo = o;
