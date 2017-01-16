@@ -3,7 +3,7 @@
 /*
   2017/01/14- yoya@awm.jp
   ref)
-  - https://msdn.microsoft.com/en-us/library/dd183374(VS.85).aspx
+  - https://msdn.microsoft.com/en-us/library/dd183391(v=vs.85).aspx
 */
 
 class IO_BMP {
@@ -27,34 +27,85 @@ class IO_BMP {
     }
     parse(arr) {
 	this.data = arr;
+	// https://msdn.microsoft.com/en-us/library/dd183374(VS.85).aspx
 	var sigArr = arr.subarray(0, 2);
-	var signature = Utils.ToText(sigArr);
+	var type = Utils.ToText(sigArr);
 	var chunk = {name:"Bitmap File Header", offset:0,
 		     bytes:arr.subarray(0, 14), infos:null};
 	var chunkList = [];
 	var bytes = null, infos = [];
-	infos.push({offset:0, signature:signature});
-	var fileSize =  this.binary.readUint32(arr, 2);
-	infos.push({offset:2, fileSize:fileSize});
-	var offsetToPixelArray =  this.binary.readUint32(arr, 10);
-	infos.push({offset:10, offsetToPixelArray:offsetToPixelArray});
+	infos.push({offset:0, type:type});
+	var size =  this.binary.readUint32(arr, 2);
+	infos.push({offset:2, size:size});
+	var offBits =  this.binary.readUint32(arr, 10);
+	infos.push({offset:10, offBits:offBits});
 	chunk.infos = infos;
 	chunkList.push(chunk);
-	// 
-	var chunk = {name:"DIB Header (BMPv5)", offset:14,
+	// v4: https://msdn.microsoft.com/en-us/library/dd183380(v=vs.85).aspx
+	// v5: https://msdn.microsoft.com/en-us/library/dd183381(v=vs.85).aspx
+	var chunk = {name:"Bitmap Info Header (DIB Header)", offset:14,
 		     bytes:null, infos:null};
 	var bytes = null, infos = [];
-	var dibHeaderSize =  this.binary.readUint32(arr, 14);
-	infos.push({offset:14, dibHeaderSize:dibHeaderSize});
-	infos.push({offset:18, width:this.binary.readUint32(arr, 18)});
-	infos.push({offset:26, planes:this.binary.readUint16(arr, 26)});
-	infos.push({offset:28, bitPerPixel:this.binary.readUint16(arr, 28)});
-	infos.push({offset:30, compression:this.binary.readUint32(arr, 30)});
-	infos.push({offset:34, imageSize:this.binary.readUint32(arr, 34)});
-	infos.push({offset:38, xPixelsPerMeter:this.binary.readUint32(arr, 38)});
-	infos.push({offset:42, yPixelsPerMeter:this.binary.readUint32(arr, 42)});
-	infos.push({offset:46, colorsInColorTable:this.binary.readUint32(arr, 46)});
-	infos.push({offset:50, importantColorCount:this.binary.readUint32(arr, 50)});
+	var o = 14;
+	var dibHeaderSize =  this.binary.readUint32(arr, o);
+	infos.push({offset:o, dibHeaderSize:dibHeaderSize});
+	o += 4;
+	infos.push({offset:o, width:this.binary.readUint32(arr, o)});
+	o += 4;
+	infos.push({offset:o, height:this.binary.readUint32(arr, o)});
+	o += 4;
+	infos.push({offset:o, planes:this.binary.readUint16(arr, o)});
+	o += 2;
+	infos.push({offset:o, bitCount:this.binary.readUint16(arr, o)});
+	o += 2;
+	infos.push({offset:o, compression:this.binary.readUint32(arr, o)});
+	o += 4;
+	infos.push({offset:o, sizeImage:this.binary.readUint32(arr, o)});
+	o += 4;
+	infos.push({offset:o, xPixelsPerMeter:this.binary.readUint32(arr, o)});
+	o += 4;
+	infos.push({offset:o, yPixelsPerMeter:this.binary.readUint32(arr, o)});
+	o += 4;
+	infos.push({offset:o, colorsUsed:this.binary.readUint32(arr, o)});
+	o += 4;
+	infos.push({offset:o, colosImportant:this.binary.readUint32(arr, o)});
+	o += 4;
+ 	var redMask   = Utils.ToHex(this.binary.readUint32(arr, o),   8);
+	var greenMask = Utils.ToHex(this.binary.readUint32(arr, o+4), 8);
+	var blueMask  = Utils.ToHex(this.binary.readUint32(arr, o+8), 8);
+	var alphaMask = Utils.ToHex(this.binary.readUint32(arr, o+12),8);
+	infos.push({offset:o,    redMask:redMask});
+	infos.push({offset:o+4,  greenMask:greenMask});
+	infos.push({offset:o+8,  blueMask:blueMask});
+	infos.push({offset:o+12, alphaMask:alphaMask});
+	o += 16;
+	infos.push({offset:o, colorSpaceType:this.binary.readUint32(arr, o)});
+	o += 4;
+	// CIEXYZTRIPLE structure
+	// https://msdn.microsoft.com/en-us/library/dd371833(v=vs.85).aspx
+	infos.push({offset:o,
+		    cieXRed:this.binary.readFP2Dot30(arr, o),
+		    cieYRed:this.binary.readFP2Dot30(arr, o+4),
+		    cieZRed:this.binary.readFP2Dot30(arr, o+8),
+		   });
+	o += 12;
+	infos.push({offset:o,
+		    cieXGreen:this.binary.readFP2Dot30(arr, o),
+		    cieYGreen:this.binary.readFP2Dot30(arr, o+4),
+		    cieZGreen:this.binary.readFP2Dot30(arr, o+8),
+		   });
+	o += 12;
+	infos.push({offset:o,
+		    cieXBlue:this.binary.readFP2Dot30(arr, o),
+		    cieYBlue:this.binary.readFP2Dot30(arr, o+4),
+		    cieZBlue:this.binary.readFP2Dot30(arr, o+8),
+		   });
+	
+	o += 12;
+	infos.push({offset:o,    redMask:redMask});
+	infos.push({offset:o+4,  greenMask:greenMask});
+	infos.push({offset:o+8,  blueMask:blueMask});
+	o += 12;
 	
 	chunk.bytes = arr.subarray(14, 14 + dibHeaderSize);
 	chunk.infos = infos;
