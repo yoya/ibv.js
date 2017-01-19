@@ -17,7 +17,7 @@ function main() {
 	} else {
 	    ibviewer.add(buf);
 	}
-    });
+    }, "ArrayBuffer");
 }
 
 
